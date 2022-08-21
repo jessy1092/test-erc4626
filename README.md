@@ -20,6 +20,11 @@ and open `https://remix.ethereum.org`
 yarn dev
 ```
 
+## Test Contracts on Goerli
+
+- TWDF: https://goerli.etherscan.io/token/0xe37df5eaa40850b440a40e8e11c0d722142a0fbd#code
+- TWDF Vault: https://goerli.etherscan.io/token/0xe243ee6884f9f05bc38ca7e0206e3bd6aabbc5b0#code
+
 ## License
 
 The MIT License (MIT)

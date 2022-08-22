@@ -7,6 +7,7 @@ import TWDFAbi from '../../artifacts/contracts/erc20-twdf.sol/TWDF.json';
 import TWDFVaultAbi from '../../artifacts/contracts/erc4626-twdf.sol/TWDFVault.json';
 
 import { normalizeNum } from '../utility';
+import { TWDF_VAULT_CONTRACT } from './vault';
 
 export const isSupportWeb3 =
 	typeof window.ethereum !== 'undefined' && typeof window.ethereum.request !== 'undefined';
@@ -28,7 +29,6 @@ export const checkConnection = async () => {
 };
 
 const TWDF_CONTRACT = '0xe37Df5eAa40850b440a40e8E11C0d722142A0fBD';
-const TWDF_VAULT_CONTRACT = '0xe243ee6884f9f05bc38ca7e0206e3bd6aabbc5b0';
 
 export const Wallet = React.createContext<null | Web3>(null);
 
@@ -118,7 +118,6 @@ export const useTWDFContract = (myAddress: string) => {
 export const useTWDFVaultContract = (myAddress: string) => {
 	const { wallet } = useWallet();
 	const [balance, setBalance] = useState<bigint>(0n);
-	const [totalAssets, setTotalAssets] = useState<bigint>(0n);
 	const [contract, setContract] = useState<null | Contract>(null);
 
 	const getBalance = useCallback(async () => {
@@ -129,17 +128,6 @@ export const useTWDFVaultContract = (myAddress: string) => {
 			console.log(newBalance);
 
 			setBalance(normalizeNum(BigInt(newBalance)));
-		}
-	}, [contract]);
-
-	const getTotalAssets = useCallback(async () => {
-		if (contract !== null) {
-			console.log('Get total asset?');
-			const newTotalAssets = await contract.methods.totalAssets().call();
-
-			console.log(newTotalAssets);
-
-			setTotalAssets(normalizeNum(BigInt(newTotalAssets)));
 		}
 	}, [contract]);
 
@@ -212,8 +200,7 @@ export const useTWDFVaultContract = (myAddress: string) => {
 
 	useEffect(() => {
 		getBalance();
-		getTotalAssets();
 	}, [contract]);
 
-	return { balance, contract, totalAssets, deposit, withdraw, mint, redeem };
+	return { balance, contract, deposit, withdraw, mint, redeem };
 };

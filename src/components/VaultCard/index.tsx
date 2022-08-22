@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import { useVault } from '../../models/vault';
 import { useTWDFContract, useTWDFVaultContract, useWallet } from '../../models/wallet';
 
 import './index.css';
@@ -9,7 +10,6 @@ interface VaultCardProperty {
 	approve: () => Promise<void>;
 	getTWDFAllowance: () => Promise<void>;
 	getTWDFBalance: () => Promise<void>;
-	totalAssets: bigint;
 	deposit: (n: bigint) => Promise<void>;
 	withdraw: (n: bigint) => Promise<void>;
 	mint: (n: bigint) => Promise<void>;
@@ -22,7 +22,6 @@ const VaultCard: React.FC<VaultCardProperty> = ({
 	approve,
 	getTWDFAllowance,
 	getTWDFBalance,
-	totalAssets,
 	deposit,
 	withdraw,
 	mint,
@@ -30,6 +29,7 @@ const VaultCard: React.FC<VaultCardProperty> = ({
 }) => {
 	const [actionAsset, setActionAsset] = useState<bigint>(0n);
 	const [actionShare, setActionShare] = useState<bigint>(0n);
+	const { totalAssets, totalSupply } = useVault();
 
 	const onChangeAssets = (e: ChangeEvent<HTMLInputElement>) => {
 		try {
@@ -97,6 +97,7 @@ const VaultCard: React.FC<VaultCardProperty> = ({
 				</div>
 			)}
 			<div>Current TWDF in Vault: {totalAssets.toString()}</div>
+			<div>Total vTWDF: {totalSupply.toString()}</div>
 		</div>
 	);
 };

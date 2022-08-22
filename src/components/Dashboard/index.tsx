@@ -16,14 +16,7 @@ const Dashboard: React.FC<DashboardProperty> = ({ address }) => {
 		getAllowance: getTWDFAllowance,
 		getBalance: getTWDFBalance,
 	} = useTWDFContract(address);
-	const {
-		balance: vTWDFBalance,
-		totalAssets,
-		deposit,
-		withdraw,
-		mint,
-		redeem,
-	} = useTWDFVaultContract(address);
+	const { balance: vTWDFBalance, deposit, withdraw, mint, redeem } = useTWDFVaultContract(address);
 
 	return (
 		<>
@@ -39,7 +32,6 @@ const Dashboard: React.FC<DashboardProperty> = ({ address }) => {
 				approve={approve}
 				getTWDFAllowance={getTWDFAllowance}
 				getTWDFBalance={getTWDFBalance}
-				totalAssets={totalAssets}
 				deposit={deposit}
 				withdraw={withdraw}
 				mint={mint}

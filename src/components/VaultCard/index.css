@@ -1,0 +1,25 @@
+.vault-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 1em;
+	border-radius: 8px;
+	border: 1px solid transparent;
+	border-color: #646cff;
+	margin-top: 10px;
+}
+
+.vault-card > .action {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+	align-self: flex-start;
+}
+
+.vault-card > .action > button {
+	margin-left: 10px;
+}
+
+.vault-card > .action > input {
+	margin-left: 10px;
+}

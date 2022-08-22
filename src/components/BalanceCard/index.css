@@ -1,0 +1,19 @@
+.balance-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 1em;
+	border-radius: 8px;
+	border: 1px solid transparent;
+	border-color: #646cff;
+}
+
+.balance-card > .action {
+	display: flex;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.balance-card > .action > button {
+	margin-left: 10px;
+}

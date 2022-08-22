@@ -1,1 +1,1 @@
-export const normalizeNum = (num: number) => num / 10 ** 18;
+export const normalizeNum = (num: bigint): bigint => num / 10n ** 18n;

@@ -32,17 +32,15 @@
 	}
 }
 
-.address {
-	margin-bottom: 4px;
-}
-
-.card {
-	padding: 1em;
-	border-radius: 8px;
-	border: 1px solid transparent;
-	border-color: #646cff;
-}
-
 .read-the-docs {
 	color: #888;
+}
+
+.address {
+	margin-bottom: 10px;
+}
+
+.App {
+	display: flex;
+	flex-direction: column;
 }

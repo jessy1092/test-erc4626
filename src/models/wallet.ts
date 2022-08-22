@@ -3,8 +3,8 @@ import Web3 from 'web3/dist/web3.min.js';
 import { AbiItem } from 'web3-utils';
 import { Contract } from 'web3-eth-contract';
 
-import TWDFAbi from '../../contracts/artifacts/TWDF_metadata.json';
-import TWDFVaultAbi from '../../contracts/artifacts/TWDFVault_metadata.json';
+import TWDFAbi from '../../artifacts/contracts/erc20-twdf.sol/TWDF.json';
+import TWDFVaultAbi from '../../artifacts/contracts/erc4626-twdf.sol/TWDFVault.json';
 
 import { normalizeNum } from '../utility';
 
@@ -72,7 +72,7 @@ export const useTWDFContract = (myAddress: string) => {
 	useEffect(() => {
 		const getContract = async () => {
 			if (wallet !== null) {
-				const contract = new wallet.eth.Contract(TWDFAbi.output.abi as AbiItem[], TWDF_CONTRACT, {
+				const contract = new wallet.eth.Contract(TWDFAbi.abi as AbiItem[], TWDF_CONTRACT, {
 					from: myAddress, // default from address
 					gasPrice: '500000000',
 				});
@@ -171,7 +171,7 @@ export const useTWDFVaultContract = (myAddress: string) => {
 		const getContract = async () => {
 			if (wallet !== null) {
 				const contract = new wallet.eth.Contract(
-					TWDFVaultAbi.output.abi as AbiItem[],
+					TWDFVaultAbi.abi as AbiItem[],
 					TWDF_VAULT_CONTRACT,
 					{
 						from: myAddress, // default from address

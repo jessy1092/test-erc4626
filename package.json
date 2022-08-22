@@ -3,9 +3,10 @@
 	"private": true,
 	"version": "0.0.0",
 	"scripts": {
-		"dev": "vite",
-		"build": "tsc && vite build",
+		"dev": "yarn compile && vite",
+		"build": "yarn compile && tsc && vite build",
 		"preview": "vite preview",
+		"compile": "hardhat compile --quiet",
 		"watch:contracts": "remixd -s . --remix-ide https://remix.ethereum.org"
 	},
 	"dependencies": {
@@ -19,6 +20,7 @@
 		"@types/react": "^18.0.17",
 		"@types/react-dom": "^18.0.6",
 		"@vitejs/plugin-react": "^2.0.1",
+		"hardhat": "^2.10.2",
 		"typescript": "^4.6.4",
 		"vite": "^3.0.7"
 	}

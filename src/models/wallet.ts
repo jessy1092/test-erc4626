@@ -167,6 +167,30 @@ export const useTWDFVaultContract = (myAddress: string) => {
 		}
 	};
 
+	const mint = async (number: bigint) => {
+		console.log('mint??????', contract);
+		if (contract !== null) {
+			const recipt = await contract.methods.mint(number * 10n ** 18n, myAddress).send();
+
+			console.log('mint finish', recipt);
+
+			await getBalance();
+		}
+	};
+
+	const redeem = async (number: bigint) => {
+		console.log('redeem??????', contract);
+		if (contract !== null) {
+			const recipt = await contract.methods
+				.redeem(number * 10n ** 18n, myAddress, myAddress)
+				.send();
+
+			console.log('redeem finish', recipt);
+
+			await getBalance();
+		}
+	};
+
 	useEffect(() => {
 		const getContract = async () => {
 			if (wallet !== null) {
@@ -191,5 +215,5 @@ export const useTWDFVaultContract = (myAddress: string) => {
 		getTotalAssets();
 	}, [contract]);
 
-	return { balance, contract, totalAssets, deposit, withdraw };
+	return { balance, contract, totalAssets, deposit, withdraw, mint, redeem };
 };

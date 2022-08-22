@@ -9,14 +9,21 @@ interface DashboardProperty {
 const Dashboard: React.FC<DashboardProperty> = ({ address }) => {
 	const { isActive } = useWallet();
 	const {
-		mint,
+		mint: mintTWDF,
 		balance: TWDFBalance,
 		isNeedApprove,
 		approve,
 		getAllowance: getTWDFAllowance,
 		getBalance: getTWDFBalance,
 	} = useTWDFContract(address);
-	const { balance: vTWDFBalance, totalAssets, deposit, withdraw } = useTWDFVaultContract(address);
+	const {
+		balance: vTWDFBalance,
+		totalAssets,
+		deposit,
+		withdraw,
+		mint,
+		redeem,
+	} = useTWDFVaultContract(address);
 
 	return (
 		<>
@@ -24,17 +31,19 @@ const Dashboard: React.FC<DashboardProperty> = ({ address }) => {
 				isActive={isActive}
 				TWDFBalance={TWDFBalance}
 				vTWDFBalance={vTWDFBalance}
-				mint={mint}
+				mint={mintTWDF}
 			></BalanceCard>
 			<VaultCard
 				isActive={isActive}
 				isNeedApprove={isNeedApprove}
 				approve={approve}
 				getTWDFAllowance={getTWDFAllowance}
+				getTWDFBalance={getTWDFBalance}
 				totalAssets={totalAssets}
 				deposit={deposit}
 				withdraw={withdraw}
-				getTWDFBalance={getTWDFBalance}
+				mint={mint}
+				redeem={redeem}
 			></VaultCard>
 		</>
 	);

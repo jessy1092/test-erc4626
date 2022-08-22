@@ -12,6 +12,8 @@ interface VaultCardProperty {
 	totalAssets: bigint;
 	deposit: (n: bigint) => Promise<void>;
 	withdraw: (n: bigint) => Promise<void>;
+	mint: (n: bigint) => Promise<void>;
+	redeem: (n: bigint) => Promise<void>;
 }
 
 const VaultCard: React.FC<VaultCardProperty> = ({
@@ -23,31 +25,77 @@ const VaultCard: React.FC<VaultCardProperty> = ({
 	totalAssets,
 	deposit,
 	withdraw,
+	mint,
+	redeem,
 }) => {
 	const [actionAsset, setActionAsset] = useState<bigint>(0n);
+	const [actionShare, setActionShare] = useState<bigint>(0n);
 
 	const onChangeAssets = (e: ChangeEvent<HTMLInputElement>) => {
-		setActionAsset(BigInt(e.target.value));
+		try {
+			setActionAsset(BigInt(e.target.value));
+		} catch (e) {
+			console.log('Can not parse bigint');
+		}
+	};
+
+	const onChangeShare = (e: ChangeEvent<HTMLInputElement>) => {
+		try {
+			setActionShare(BigInt(e.target.value));
+		} catch (e) {
+			console.log('Can not parse bigint');
+		}
 	};
 
 	const onDeposit = async () => {
 		await deposit(actionAsset);
 		await Promise.all([getTWDFAllowance(), getTWDFBalance()]);
 	};
+
 	const onWithdraw = async () => {
 		await withdraw(actionAsset);
+		await Promise.all([getTWDFAllowance(), getTWDFBalance()]);
+	};
+
+	const onMint = async () => {
+		await mint(actionShare);
+		await Promise.all([getTWDFAllowance(), getTWDFBalance()]);
+	};
+
+	const onRedeem = async () => {
+		await redeem(actionShare);
 		await Promise.all([getTWDFAllowance(), getTWDFBalance()]);
 	};
 
 	return (
 		<div className="vault-card">
 			<h2>Vault</h2>
-			<div className="action">
-				<input type="text" placeholder="deposit/withdraw TWDF" onChange={onChangeAssets}></input>
-				{isActive && isNeedApprove && <button onClick={approve}>Approve</button>}
-				{isActive && !isNeedApprove && <button onClick={onDeposit}>Deposit</button>}
-				{isActive && <button onClick={onWithdraw}>withdraw</button>}
-			</div>
+			{isActive && (
+				<div className="action">
+					<input
+						type="text"
+						placeholder="deposit/withdraw TWDF"
+						value={actionAsset.toString()}
+						onChange={onChangeAssets}
+					></input>
+					{isNeedApprove && <button onClick={approve}>Approve</button>}
+					{!isNeedApprove && <button onClick={onDeposit}>Deposit</button>}
+					<button onClick={onWithdraw}>withdraw</button>
+				</div>
+			)}
+			{isActive && (
+				<div className="action">
+					<input
+						type="text"
+						placeholder="mint/redeem vTWDF"
+						value={actionShare.toString()}
+						onChange={onChangeShare}
+					></input>
+					{isNeedApprove && <button onClick={approve}>Approve</button>}
+					{!isNeedApprove && <button onClick={onMint}>Mint</button>}
+					<button onClick={onRedeem}>Redeem</button>
+				</div>
+			)}
 			<div>Current TWDF in Vault: {totalAssets.toString()}</div>
 		</div>
 	);

@@ -22,7 +22,7 @@ interface UpdateProperty {
 	totalSupply: bigint;
 }
 
-export const subscribeVault = async (onUpdate = (t: UpdateProperty) => {}) => {
+export const subscribeVault = (onUpdate = (t: UpdateProperty) => {}) => {
 	const web3Socket = new Web3(
 		new Web3.providers.WebsocketProvider(
 			`wss://eth-goerli.g.alchemy.com/v2/${import.meta.env.VITE_WEBSOCKET_KEY}`,
@@ -52,7 +52,7 @@ export const subscribeVault = async (onUpdate = (t: UpdateProperty) => {}) => {
 		});
 	};
 
-	myContract.events.Deposit({}).on('data', function (event: VaultEvent) {
+	const depositListener = myContract.events.Deposit({}).on('data', function (event: VaultEvent) {
 		console.log('Deposit Event');
 		console.log(event); // same results as the optional callback above
 		console.log(event.returnValues);
@@ -61,7 +61,7 @@ export const subscribeVault = async (onUpdate = (t: UpdateProperty) => {}) => {
 		update();
 	});
 
-	myContract.events.Withdraw({}).on('data', function (event: VaultEvent) {
+	const withdrawListener = myContract.events.Withdraw({}).on('data', function (event: VaultEvent) {
 		console.log('Withdraw Event');
 		console.log(event); // same results as the optional callback above
 		console.log(event.returnValues);
@@ -73,6 +73,12 @@ export const subscribeVault = async (onUpdate = (t: UpdateProperty) => {}) => {
 	console.log('First Subscribe');
 	// First Init
 	update();
+
+	return () => {
+		console.log('cancel subscribe');
+		depositListener.off('data');
+		withdrawListener.off('data');
+	};
 };
 
 export const useVault = () => {
@@ -80,10 +86,12 @@ export const useVault = () => {
 	const [totalSupply, setTotalSupply] = useState<bigint>(0n);
 
 	useEffect(() => {
-		subscribeVault(result => {
+		const unSubscribe = subscribeVault(result => {
 			setTotalAssets(result.totalAssets);
 			setTotalSupply(result.totalSupply);
 		});
+
+		return unSubscribe;
 	}, []);
 
 	return { totalAssets, totalSupply };

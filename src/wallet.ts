@@ -12,5 +12,7 @@ export const checkConnection = async () => {
 
 			return account[0];
 		}
+
+		return '';
 	}
 };

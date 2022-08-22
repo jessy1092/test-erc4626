@@ -20,6 +20,16 @@ and open `https://remix.ethereum.org`
 yarn dev
 ```
 
+## Build Web Page
+
+```
+yarn build
+```
+
+## Demo Page
+
+https://test-erc4626.pages.dev/
+
 ## Test Contracts on Goerli
 
 - TWDF: https://goerli.etherscan.io/token/0xe37df5eaa40850b440a40e8e11c0d722142a0fbd#code
